@@ -1,7 +1,9 @@
 import pygame as pg
 from Config import *
 from Model import *
+from Controller import *
 import random
+import time
 
 from typing import List
 
@@ -10,7 +12,7 @@ def generate_food(foods: List[Food]):
     foods.append(Food(generate_origin))
 
 def generate_wall(walls: List[Wall]):
-    generate_origin = (100, 100)
+    generate_origin = (200, 100)
     walls.append(Wall(generate_origin))
 
 def show_snake_length():
@@ -29,7 +31,7 @@ clock = pg.time.Clock()
 
 snake_length = 0
 
-player = Player()
+player = [Player()]
 
 foods = []
 walls = []
@@ -50,24 +52,33 @@ while running:
     if len(walls) == 0:
         generate_wall(walls)
 
-    for event in pg.event.get():
+    events = pg.event.get()
+    pressed_keys = []
+    for event in events:
         if event.type == pg.QUIT:
             running = False
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
             running = False
-            
-    # pressed_keys = pg.key.get_pressed()
+        
+        elif event.type == pg.KEYDOWN:
+            pressed_keys.append(event.key)
 
-    # player_move(player.rect, pressed_keys)
+            
+    # print(True in pressed_keys)
+    # # input()
+    # time.sleep(1)
+    
+    print(player_move(player, pressed_keys))
     
     # snake_length = detect_food_collision(snake_length, player, foods)
-
+    if detect_food_collision(1, player, foods): break
     # if game_over(player, walls):
     #     running = False
 
     screen.fill(BACKGROUND_COLOR)
-    screen.blit(player.surf, player.rect)
+    for block in player:
+        screen.blit(block.surf, block.rect)
 
     for food in foods:
         screen.blit(food.surf, food.rect)
