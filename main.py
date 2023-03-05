@@ -7,13 +7,16 @@ import time
 
 from typing import List
 
+
 def generate_food(foods: List[Food]):
     generate_origin = (100, 100)
     foods.append(Food(generate_origin))
 
+
 def generate_wall(walls: List[Wall]):
     generate_origin = (200, 100)
     walls.append(Wall(generate_origin))
+
 
 def show_snake_length():
     pass
@@ -62,24 +65,26 @@ while running:
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
             running = False
-        
+
         elif event.type == pg.KEYDOWN:
             pressed_keys.append(event.key)
 
-            
+    if check_border(player):
+        break
+
     # print(True in pressed_keys)
     # # input()
     # time.sleep(1)
-    
+
     # print(player_move(player, pressed_keys))
     input_result = player_key_input(player, pressed_keys)
-    if input_result == 'new':
+    if input_result == "new":
         old = player.snake_list[0]
-        player.new_block((SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+        player.new_block((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
     print(input_result)
     direction = direction if input_result == None else input_result
     player_move(player, direction)
-    
+
     # snake_length = detect_food_collision(snake_length, player, foods)
     # if detect_food_collision(1, player, foods): break
     # if game_over(player, walls):
