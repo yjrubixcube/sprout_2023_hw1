@@ -28,7 +28,7 @@ def player_key_input(player: Player, pressed_keys: List):
     return movement
     
 def player_move(player: Player, direction):
-
+    if direction == -1: return
     if direction == 0: # up
         movement = (0, -SNAKE_SIZE, 0, 0)
     elif direction == 2: # down
@@ -47,13 +47,26 @@ def player_move(player: Player, direction):
 
     # return movement
 
-# def detect_food_collision(player: Player, foods: List[Food]):
+def detect_wall_collision(player: Player, walls: List[Wall]):
 
-#     for block in player.snake_list:
-#         for food in foods:
-#             if abs(block.rect.centerx - food.rect.centerx) < SNAKE_SIZE \
-#                 and abs(block.rect.centery - food.rect.centery) < SNAKE_SIZE:
-                
-#                 return True
+    # for block in player.snake_list:
+    block = player.snake_list[0] # [topleftx, toplefty, snakesize, snakesize]
+    for wall in walls:
+        if abs(block[0] - wall.rect.topleft[0]) < SNAKE_SIZE \
+            and abs(block[1] - wall.rect.topleft[1]) < SNAKE_SIZE:
             
-#     return False
+            return True
+            
+    return False
+
+def detect_food_collision(player: Player, foods: List[Food]):
+
+    # for block in player.snake_list:
+    block = player.snake_list[0] # [topleftx, toplefty, snakesize, snakesize]
+    for food in foods:
+        if abs(block[0] - food.rect.topleft[0]) < SNAKE_SIZE \
+            and abs(block[1] - food.rect.topleft[1]) < SNAKE_SIZE:
+            
+            return True
+            
+    return False
