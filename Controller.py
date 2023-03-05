@@ -4,6 +4,13 @@ from Config import *
 from Model import *
 from operator import add
 
+
+def check_border(player: Player):
+    if player.head_x < 0 or player.head_x > SCREEN_WIDTH or player.head_y < 0 or player.head_y > SCREEN_HEIGHT:
+        return True
+    return False
+
+
 def player_key_input(player: Player, pressed_keys: List):
 
     movement = (0, 0, 0, 0)
@@ -26,16 +33,17 @@ def player_key_input(player: Player, pressed_keys: List):
     else:
         return None
     return movement
-    
+
+
 def player_move(player: Player, direction):
     if direction == -1: return
     if direction == 0: # up
         movement = (0, -SNAKE_SIZE, 0, 0)
-    elif direction == 2: # down
+    elif direction == 2:  # down
         movement = (0, SNAKE_SIZE, 0, 0)
-    elif direction == 3: # left
+    elif direction == 3:  # left
         movement = (-SNAKE_SIZE, 0, 0, 0)
-    elif direction == 1: # right
+    elif direction == 1:  # right
         movement = (SNAKE_SIZE, 0, 0, 0)
 
     # player[0].rect.move_ip(movement)

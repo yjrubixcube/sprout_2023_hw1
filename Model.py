@@ -1,6 +1,7 @@
 from Config import *
 import pygame as pg
 
+
 class Player:
     def __init__(self):
         # self.surf = pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE))
@@ -22,6 +23,17 @@ class Player:
     def draw_snake(self, screen):
         for block in self.snake_list:
             pg.draw.rect(screen, SNAKE_COLOR, block)
+
+    @property
+    def head_x(self):
+        print(self.snake_list[0][0])
+        return self.snake_list[0][0]
+
+    @property
+    def head_y(self):
+        print(self.snake_list[0][1])
+        return self.snake_list[0][1]
+
 
 class Food:
     def __init__(self, pos):
