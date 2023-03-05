@@ -2,36 +2,58 @@ from typing import List, Tuple, Sequence
 import pygame as pg
 from Config import *
 from Model import *
+from operator import add
 
-def player_move(player: List[Player], pressed_keys: List):
+def player_key_input(player: Player, pressed_keys: List):
 
-    movement = (0, 0)
+    movement = (0, 0, 0, 0)
 
     for key in pressed_keys:
         if key == pg.K_UP:
-            movement = (0, -SNAKE_SIZE)
+            movement = 0
             break
         if key == pg.K_DOWN:
-            movement = (0, SNAKE_SIZE)
+            movement = 2
             break
         if key == pg.K_LEFT:
-            movement = (-SNAKE_SIZE, 0)
+            movement = 3
             break
         if key == pg.K_RIGHT:
-            movement = (SNAKE_SIZE, 0)
+            movement = 1
             break
-
-    player[0].rect.move_ip(movement)
-
+        if key == pg.K_a:
+            return "new"
+    else:
+        return None
     return movement
+    
+def player_move(player: Player, direction):
 
-def detect_food_collision(snake_length, player: List[Player], foods: List[Food]):
+    if direction == 0: # up
+        movement = (0, -SNAKE_SIZE, 0, 0)
+    elif direction == 2: # down
+        movement = (0, SNAKE_SIZE, 0, 0)
+    elif direction == 3: # left
+        movement = (-SNAKE_SIZE, 0, 0, 0)
+    elif direction == 1: # right
+        movement = (SNAKE_SIZE, 0, 0, 0)
 
-    for block in player:
-        for food in foods:
-            if abs(block.rect.centerx - food.rect.centerx) < SNAKE_SIZE \
-                and abs(block.rect.centery - food.rect.centery) < SNAKE_SIZE:
+    # player[0].rect.move_ip(movement)
+    first_block = player.snake_list[0]
+    last_block = player.snake_list.pop()
+    # new_block = [first_block[0], pg.Rect()]
+    last_block = list(map(add, first_block, movement))
+    player.snake_list.insert(0, last_block)
+
+    # return movement
+
+# def detect_food_collision(player: Player, foods: List[Food]):
+
+#     for block in player.snake_list:
+#         for food in foods:
+#             if abs(block.rect.centerx - food.rect.centerx) < SNAKE_SIZE \
+#                 and abs(block.rect.centery - food.rect.centery) < SNAKE_SIZE:
                 
-                return True
+#                 return True
             
-    return False
+#     return False

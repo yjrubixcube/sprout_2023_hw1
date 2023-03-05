@@ -31,10 +31,12 @@ clock = pg.time.Clock()
 
 snake_length = 0
 
-player = [Player()]
+player = Player()
 
 foods = []
 walls = []
+
+direction = 0
 
 pg.time.set_timer(MOVE_EVENT, TIME_INTERVAL_MAX)
 
@@ -69,17 +71,30 @@ while running:
     # # input()
     # time.sleep(1)
     
-    print(player_move(player, pressed_keys))
+    # print(player_move(player, pressed_keys))
+    input_result = player_key_input(player, pressed_keys)
+    if input_result == 'new':
+        old = player.snake_list[0]
+        player.new_block((SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+    print(input_result)
+    direction = direction if input_result == None else input_result
+    player_move(player, direction)
     
     # snake_length = detect_food_collision(snake_length, player, foods)
-    if detect_food_collision(1, player, foods): break
+    # if detect_food_collision(1, player, foods): break
     # if game_over(player, walls):
     #     running = False
 
     screen.fill(BACKGROUND_COLOR)
-    for block in player:
-        screen.blit(block.surf, block.rect)
-
+    print(player.snake_list)
+    for block in player.snake_list:
+        # screen.blit(block.surf, block.rect)
+        # screen.blit(block[0], block[1])
+        # print(block)
+        # print(pg.Rect(block))
+        # screen.blit(pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE)), pg.Rect(block))
+        pg.draw.rect(screen, rect=block, color=SNAKE_COLOR)
+    # time.sleep(1)
     for food in foods:
         screen.blit(food.surf, food.rect)
 
