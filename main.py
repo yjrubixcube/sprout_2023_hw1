@@ -19,9 +19,6 @@ def generate_wall(walls: List[Wall], pos):
     walls.append(Wall(generate_origin))
 
 
-def show_snake_length():
-    pass
-
 
 """
 Initialize and Global variables
@@ -33,7 +30,6 @@ pg.display.set_caption("Snakes!")
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pg.time.Clock()
 
-snake_length = 0
 
 player = Player()
 
@@ -41,6 +37,8 @@ foods = []
 walls = []
 
 direction = -1
+
+time_interval = TIME_INTERVAL_MIN
 
 pg.time.set_timer(MOVE_EVENT, TIME_INTERVAL_MAX)
 
@@ -90,18 +88,28 @@ while running:
         elif direction == 1: # right
             new_block = (old[0] + SNAKE_SIZE, old[1])
         player.new_block(new_block)
-    print(input_result)
+    # print(input_result)
     direction = direction if input_result == None or input_result == "new" else input_result
-    player_move(player, direction)
+    # player_move(player, direction)
 
     # snake_length = detect_food_collision(snake_length, player, foods)
-    if detect_wall_collision(player, walls): break
-    if detect_food_collision(player, foods):
+    if detect_wall_collision(player, walls, direction):
+        print("hit wall")
+        break
+    if detect_food_collision(player, foods, direction):
         player.new_block((foods[0].rect.topleft))
         foods.pop()
         generate_food(foods, (SNAKE_SIZE*random.randint(0, SCREEN_WIDTH/SNAKE_SIZE), SNAKE_SIZE*random.randint(0, SCREEN_HEIGHT/SNAKE_SIZE)))
+        print("hit food")
     # if game_over(player, walls):
     #     running = False
+    if detect_player_collision(player, direction): 
+        print("hit self")
+        break
+
+    player_move(player, direction)
+
+    time_interval = min(TIME_INTERVAL_MAX, time_interval + player.length//4)
 
     screen.fill(BACKGROUND_COLOR)
     # print(player.snake_list)
@@ -123,4 +131,5 @@ while running:
 
     pg.display.flip()
 
-    clock.tick(TIME_INTERVAL_MAX)
+    # clock.tick(TIME_INTERVAL_MAX)
+    clock.tick(time_interval)

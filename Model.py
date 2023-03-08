@@ -26,13 +26,17 @@ class Player:
 
     @property
     def head_x(self):
-        print(self.snake_list[0][0])
+        # print(self.snake_list[0][0])
         return self.snake_list[0][0]
 
     @property
     def head_y(self):
-        print(self.snake_list[0][1])
+        # print(self.snake_list[0][1])
         return self.snake_list[0][1]
+    
+    @property
+    def length(self):
+        return len(self.snake_list)
 
 
 class Food:
