@@ -3,10 +3,8 @@ from Config import *
 from Model import *
 from Controller import *
 import random
-import time
 
 from typing import List
-
 
 
 
@@ -67,20 +65,22 @@ while running:
     # time.sleep(1)
 
     # print(player_move(player, pressed_keys))
-    input_result = player_key_input(player, pressed_keys)
+    input_result = key_input(pressed_keys)
     if input_result == "new":
         old = player.snake_list[0]
-        if direction == 0: # up
+        if direction == 0:  # up
             new_block = (old[0], old[1] - SNAKE_SIZE)
-        elif direction == 2: # down
+        elif direction == 2:  # down
             new_block = (old[0], old[1] + SNAKE_SIZE)
-        elif direction == 3: # left
+        elif direction == 3:  # left
             new_block = (old[0] - SNAKE_SIZE, old[1])
-        elif direction == 1: # right
+        else:  # right or not initialized
             new_block = (old[0] + SNAKE_SIZE, old[1])
         player.new_block(new_block)
     # print(input_result)
-    direction = direction if input_result == None or input_result == "new" else input_result
+    direction = (
+        direction if input_result == None or input_result == "new" else input_result
+    )
     # player_move(player, direction)
 
     # snake_length = detect_food_collision(snake_length, player, foods)
@@ -93,29 +93,36 @@ while running:
     if detect_food_collision(player, foods, direction):
         player.new_block((foods[0].rect.topleft))
         foods.pop()
-        generate_food(foods, (SNAKE_SIZE*random.randint(0, SCREEN_WIDTH/SNAKE_SIZE-1), SNAKE_SIZE*random.randint(0, SCREEN_HEIGHT/SNAKE_SIZE-1)))
+        generate_food(
+            foods,
+            (
+                SNAKE_SIZE * random.randint(0, SCREEN_WIDTH / SNAKE_SIZE),
+                SNAKE_SIZE * random.randint(0, SCREEN_HEIGHT / SNAKE_SIZE),
+            ),
+        )
         print("hit food")
     # if game_over(player, walls):
     #     running = False
-
-        # if player.length % 5 == 0:
-        generate_wall(walls)
-    
+    if detect_player_collision(player, direction):
+        print("hit self")
+        break
 
     player_move(player, direction)
 
-    time_interval = min(TIME_INTERVAL_MAX, time_interval + player.length//4)
+    time_interval = min(TIME_INTERVAL_MAX, time_interval + player.length // 4)
 
     screen.fill(BACKGROUND_COLOR)
     # print(player.snake_list)
-    for block in player.snake_list:
-        # screen.blit(block.surf, block.rect)
-        # screen.blit(block[0], block[1])
-        # print(block)
-        # print(pg.Rect(block))
-        # screen.blit(pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE)), pg.Rect(block))
-        # pg.draw.rect(screen, rect=pg.rect.Rect(), color=SNAKE_COLOR)
-        pg.draw.rect(screen, rect=block, color=SNAKE_COLOR)
+    # for block in player.snake_list:
+    #     # screen.blit(block.surf, block.rect)
+    #     # screen.blit(block[0], block[1])
+    #     # print(block)
+    #     # print(pg.Rect(block))
+    #     # screen.blit(pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE)), pg.Rect(block))
+    #     # pg.draw.rect(screen, rect=pg.rect.Rect(), color=SNAKE_COLOR)
+    #     print(block)
+    #     pg.draw.rect(screen, rect=block, color=SNAKE_COLOR)
+    player.draw_snake(screen)
     # time.sleep(1)
     # print(pg.rect)
     for food in foods:
