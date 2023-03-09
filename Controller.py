@@ -142,7 +142,6 @@ def detect_player_collision(player: Player, direction):
 
     else:
         return False
-<<<<<<< HEAD
     
 def generate_food(foods: List[Food], pos):
     # generate_origin = (100, 100)
@@ -169,5 +168,3 @@ def generate_wall(walls: List[Wall], pos=None):
     else:
         # generate_origin = pos
         walls.append(Wall(pos))
-=======
->>>>>>> b1b31b2776c2706211013d6e14e45ca5a058297e
