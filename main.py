@@ -8,15 +8,6 @@ import time
 from typing import List
 
 
-def generate_food(foods: List[Food], pos):
-    # generate_origin = (100, 100)
-    generate_origin = pos
-    foods.append(Food(generate_origin))
-
-def generate_wall(walls: List[Wall], pos):
-    # generate_origin = (200, 100)
-    generate_origin = pos
-    walls.append(Wall(generate_origin))
 
 
 
@@ -93,19 +84,23 @@ while running:
     # player_move(player, direction)
 
     # snake_length = detect_food_collision(snake_length, player, foods)
+    if detect_player_collision(player, direction): 
+        print("hit self")
+        break
     if detect_wall_collision(player, walls, direction):
         print("hit wall")
         break
     if detect_food_collision(player, foods, direction):
         player.new_block((foods[0].rect.topleft))
         foods.pop()
-        generate_food(foods, (SNAKE_SIZE*random.randint(0, SCREEN_WIDTH/SNAKE_SIZE), SNAKE_SIZE*random.randint(0, SCREEN_HEIGHT/SNAKE_SIZE)))
+        generate_food(foods, (SNAKE_SIZE*random.randint(0, SCREEN_WIDTH/SNAKE_SIZE-1), SNAKE_SIZE*random.randint(0, SCREEN_HEIGHT/SNAKE_SIZE-1)))
         print("hit food")
     # if game_over(player, walls):
     #     running = False
-    if detect_player_collision(player, direction): 
-        print("hit self")
-        break
+
+        # if player.length % 5 == 0:
+        generate_wall(walls)
+    
 
     player_move(player, direction)
 

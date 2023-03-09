@@ -45,8 +45,20 @@ class Food:
         self.surf.fill(FOOD_COLOR)
         self.rect = self.surf.get_rect(topleft=pos)
 
+    @property
+    def pos(self):
+        return self.rect.topleft
+
 class Wall:
     def __init__(self, pos):
         self.surf = pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE))
         self.surf.fill(WALL_COLOR)
         self.rect = self.surf.get_rect(topleft = pos)
+
+    @property
+    def pos_x(self):
+        return self.rect.topleft[0]
+    
+    @property
+    def pos_y(self):
+        return self.rect.topleft[1]

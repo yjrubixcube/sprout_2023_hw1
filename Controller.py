@@ -3,6 +3,7 @@ import pygame as pg
 from Config import *
 from Model import *
 from operator import add
+import random
 
 
 def check_border(player: Player):
@@ -133,3 +134,29 @@ def detect_player_collision(player: Player, direction):
         
     else:
         return False
+    
+def generate_food(foods: List[Food], pos):
+    # generate_origin = (100, 100)
+    generate_origin = pos
+    foods.append(Food(generate_origin))
+
+def generate_wall(walls: List[Wall], pos=None):
+    # generate_origin = (200, 100)
+
+    if pos == None:
+        # while 1:
+        chosen = random.choice(walls)
+        wall_dir = random.randint(0, 3)
+
+        if wall_dir == 0:
+            new_wall = Wall((chosen.pos_x + SNAKE_SIZE, chosen.pos_y))
+        elif wall_dir == 1:
+            new_wall = Wall((chosen.pos_x - SNAKE_SIZE, chosen.pos_y))
+        elif wall_dir == 2:
+            new_wall = Wall((chosen.pos_x, chosen.pos_y + SNAKE_SIZE))
+        elif wall_dir == 3:
+            new_wall = Wall((chosen.pos_x, chosen.pos_y - SNAKE_SIZE))
+        walls.append(new_wall)
+    else:
+        # generate_origin = pos
+        walls.append(Wall(pos))
