@@ -24,6 +24,7 @@ player = Player()
 
 foods = []
 walls = []
+next_walls = []
 
 direction = -1
 
@@ -40,10 +41,10 @@ Game Loop
 while running:
 
     if len(foods) == 0:
-        generate_food(foods, (100, 100))
+        generate_food(foods, walls, (100, 100))
 
     if len(walls) == 0:
-        generate_wall(walls, (100, 200))
+        generate_wall(walls, next_walls, (100, 200))
 
     events = pg.event.get()
     pressed_keys = []
@@ -93,14 +94,9 @@ while running:
     if detect_food_collision(player, foods, direction):
         player.new_block((foods[0].rect.topleft))
         foods.pop()
-        generate_food(
-            foods,
-            (
-                SNAKE_SIZE * random.randint(0, SCREEN_WIDTH / SNAKE_SIZE),
-                SNAKE_SIZE * random.randint(0, SCREEN_HEIGHT / SNAKE_SIZE),
-            ),
-        )
+        generate_food(foods, walls)
         print("hit food")
+        generate_wall(walls, next_walls)
     # if game_over(player, walls):
     #     running = False
     if detect_player_collision(player, direction):

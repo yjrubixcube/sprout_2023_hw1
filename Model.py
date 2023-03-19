@@ -7,8 +7,11 @@ class Player:
         # self.surf = pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE))
         # self.surf.fill(SNAKE_COLOR)
         # self.rect = self.surf.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+        # self.snake_list = [
+        #     [SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SNAKE_SIZE, SNAKE_SIZE]
+        # ]
         self.snake_list = [
-            [SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SNAKE_SIZE, SNAKE_SIZE]
+            [200, 100, SNAKE_SIZE, SNAKE_SIZE]
         ]
         # self.snake_list = [[SCREEN_WIDTH/2 - SNAKE_SIZE/2, SCREEN_HEIGHT/2 - SNAKE_SIZE/2, SNAKE_SIZE, SNAKE_SIZE]]
         # self.snake_list.append([SCREEN_WIDTH/2 + SNAKE_SIZE, SCREEN_HEIGHT/2, SNAKE_SIZE, SNAKE_SIZE])
