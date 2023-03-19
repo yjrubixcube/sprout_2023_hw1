@@ -54,7 +54,7 @@ while running:
         elif event.type == pg.KEYDOWN:
             pressed_keys.append(event.key)
 
-    if check_border(player):
+    if player.check_border():
         break
 
     # print(True in pressed_keys)
@@ -81,13 +81,13 @@ while running:
     # player_move(player, direction)
 
     # snake_length = detect_food_collision(snake_length, player, foods)
-    if detect_player_collision(player, direction): 
+    if player.detect_player_collision(direction):
         print("hit self")
         break
-    if detect_wall_collision(player, walls, direction):
+    if player.detect_wall_collision(walls, direction):
         print("hit wall")
         break
-    if detect_food_collision(player, foods, direction):
+    if player.detect_food_collision(foods, direction):
         player.new_block((foods[0].rect.topleft))
         foods.pop()
         generate_food(foods, walls)
@@ -95,11 +95,11 @@ while running:
         generate_wall(walls, next_walls)
     # if game_over(player, walls):
     #     running = False
-    if detect_player_collision(player, direction):
+    if player.detect_player_collision(direction):
         print("hit self")
         break
 
-    player_move(player, direction)
+    player.move(direction)
 
     time_interval = min(TIME_INTERVAL_MAX, time_interval + player.length // 4)
 
