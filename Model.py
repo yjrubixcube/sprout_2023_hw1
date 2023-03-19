@@ -26,9 +26,14 @@ class Player:
         self.snake_list.insert(0, [*new_pos, SNAKE_SIZE, SNAKE_SIZE])
 
     def draw_snake(self, screen):
+        col = True
         for block in self.snake_list:
             print(block)
-            pg.draw.rect(screen, SNAKE_COLOR, block)
+            if col == True:
+                pg.draw.rect(screen, SNAKE_COLOR_YELLOW, block)
+            else:
+                pg.draw.rect(screen, SNAKE_COLOR_BLUE, block)
+            col = not col
 
     @property
     def head_x(self):

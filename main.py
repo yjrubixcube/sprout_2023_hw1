@@ -2,12 +2,8 @@ import pygame as pg
 from Config import *
 from Model import *
 from Controller import *
-import random
 
 from typing import List
-
-
-
 
 """
 Initialize and Global variables
