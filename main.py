@@ -22,26 +22,22 @@ foods = []
 walls = []
 next_walls = []
 
+generate_wall(walls, next_walls, player)
+generate_food(foods, walls, player)
+poison = generate_poison(walls, foods, player)
+
 direction = -1
 
 time_interval = TIME_INTERVAL_MIN
 
-pg.time.set_timer(MOVE_EVENT, TIME_INTERVAL_MAX)
-
-running = True
+pg.time.set_timer(MOVE_EVENT, TIME_INTERVAL_MIN)
 
 """
 Game Loop
 """
-
+running = True
 while running:
-
-    if len(foods) == 0:
-        generate_food(foods, walls, (100, 100))
-
-    if len(walls) == 0:
-        generate_wall(walls, next_walls, (100, 200))
-
+    # 從 pygame 取得按鍵被按下的事件
     events = pg.event.get()
     pressed_keys = []
     for event in events:
@@ -54,76 +50,51 @@ while running:
         elif event.type == pg.KEYDOWN:
             pressed_keys.append(event.key)
 
-    if player.check_border():
-        break
+    direction = key_input(pressed_keys)
+    pg.event.clear()
 
-    # print(True in pressed_keys)
-    # # input()
-    # time.sleep(1)
-
-    # print(player_move(player, pressed_keys))
-    input_result = key_input(pressed_keys)
-    if input_result == "new":
-        old = player.snake_list[0]
-        if direction == 0:  # up
-            new_block = (old[0], old[1] - SNAKE_SIZE)
-        elif direction == 2:  # down
-            new_block = (old[0], old[1] + SNAKE_SIZE)
-        elif direction == 3:  # left
-            new_block = (old[0] - SNAKE_SIZE, old[1])
-        else:  # right or not initialized
-            new_block = (old[0] + SNAKE_SIZE, old[1])
-        player.new_block(new_block)
-    # print(input_result)
-    direction = (
-        direction if input_result == None or input_result == "new" else input_result
-    )
-    # player_move(player, direction)
-
-    # snake_length = detect_food_collision(snake_length, player, foods)
-    if player.detect_player_collision(direction):
-        print("hit self")
-        break
-    if player.detect_wall_collision(walls, direction):
-        print("hit wall")
-        break
-    if player.detect_food_collision(foods, direction):
-        player.new_block((foods[0].rect.topleft))
-        foods.pop()
-        generate_food(foods, walls)
-        print("hit food")
-        generate_wall(walls, next_walls)
-    # if game_over(player, walls):
-    #     running = False
-    if player.detect_player_collision(direction):
-        print("hit self")
-        break
+    # 將蛇的最後一格存起來，長度變長的時候要加回去
+    last_block = player.snake_list[-1]
 
     player.move(direction)
 
-    time_interval = min(TIME_INTERVAL_MAX, time_interval + player.length // 4)
+    # 各種物件碰撞判斷
+    if player.check_border():
+        print("hit border")
+        break
+    if player.detect_player_collision():
+        print("hit self")
+        break
+    if player.detect_wall_collision(walls):
+        print("hit wall")
+        break
+    if player.detect_food_collision(foods):
+        player.new_block(last_block[:2])
+        foods.pop()
+        generate_wall(walls, next_walls, player)
+        generate_food(foods, walls, player)
+    if player.detect_poison_collision(poison):
+        player.snake_list.pop()
+        print("poison")
+        if player.length == 0:
+            break
+        poison = generate_poison(walls, foods, player)
 
+    # 計算每秒的幀數 (fps)
+    time_interval = calculate_time_interval(player)
+
+    # 畫物件
     screen.fill(BACKGROUND_COLOR)
-    # print(player.snake_list)
-    # for block in player.snake_list:
-    #     # screen.blit(block.surf, block.rect)
-    #     # screen.blit(block[0], block[1])
-    #     # print(block)
-    #     # print(pg.Rect(block))
-    #     # screen.blit(pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE)), pg.Rect(block))
-    #     # pg.draw.rect(screen, rect=pg.rect.Rect(), color=SNAKE_COLOR)
-    #     print(block)
-    #     pg.draw.rect(screen, rect=block, color=SNAKE_COLOR)
     player.draw_snake(screen)
-    # time.sleep(1)
-    # print(pg.rect)
     for food in foods:
         screen.blit(food.surf, food.rect)
-
     for wall in walls:
         screen.blit(wall.surf, wall.rect)
+    screen.blit(poison.surf, poison.rect)
 
+    # 把你的螢幕翻過來XD
     pg.display.flip()
-
-    # clock.tick(TIME_INTERVAL_MAX)
+    
     clock.tick(time_interval)
+
+print(f"Your score is {player.length}")
