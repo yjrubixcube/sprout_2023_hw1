@@ -50,8 +50,9 @@ while running:
         elif event.type == pg.KEYDOWN:
             pressed_keys.append(event.key)
 
-    direction = key_input(pressed_keys)
+    key = key_input(pressed_keys)
     pg.event.clear()
+    direction = direction if key == None else key
 
     # 將蛇的最後一格存起來，長度變長的時候要加回去
     last_block = player.snake_list[-1]

@@ -131,7 +131,6 @@ def generate_food(foods: List[Food], walls: List[Wall], player: Player):
 def generate_poison(walls: List[Wall], foods: List[Food], player: Player):
     '''
     在隨機位置生成一個Poison的物件並回傳，不能與現有其他物件或玩家重疊
-    無回傳值
     '''
     # TODO
     while 1:
@@ -162,6 +161,7 @@ def calculate_time_interval(player: Player):
     根據蛇的長度，計算並回傳每一秒有幾幀
     蛇的長度每增加4幀數就+1，從小到大，最大為 TIME_INTERVAL_MAX，最小為 TIME_INTERVAL_MIN
     '''
+    # TODO
     l = player.length
 
     return min(TIME_INTERVAL_MIN + (l-1)//4, TIME_INTERVAL_MAX)

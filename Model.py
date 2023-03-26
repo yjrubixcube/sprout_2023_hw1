@@ -21,7 +21,7 @@ class Food:
     def pos_y(self):
         return self.rect.topleft[1]
 
-class Poison(Food):
+class Poison:
     '''
     毒藥物件，初始化方法為 Poison((左上角x, 左上角y))
     '''
@@ -77,22 +77,23 @@ class Player:
     def length(self):
         return len(self.snake_list)
 
-    # TODO 以下為大作業
+    # 以下為大作業
 
     def new_block(self, new_pos):
         '''
         將新一段的資訊加到 snake_list 最後面
         '''
         # self.snake_list.insert(0, [*new_pos, SNAKE_SIZE, SNAKE_SIZE])
+        # TODO
         self.snake_list.append([*new_pos, SNAKE_SIZE, SNAKE_SIZE])
 
     def draw_snake(self, screen):
         '''
-        畫出蛇，顏色要黃藍相間
+        畫出蛇，顏色要黃藍相間，無回傳值
         顏色可以用 SNAKE_COLOR_YELLOW, SNAKE_COLOR_BLUE
         可以用 pg.draw.rect(screen, 顏色, (座標x, 座標y, 大小, 大小))
         '''
-        print("draw")
+        # TODO
         col = True
         for block in self.snake_list:
             print(block)
@@ -108,6 +109,7 @@ class Player:
         有超出就回傳 True
         沒有超出回傳 False
         '''
+        # TODO
         if (
             self.head_x < 0
             or self.head_x > SCREEN_WIDTH - SNAKE_SIZE
@@ -119,15 +121,15 @@ class Player:
 
     def move(self, direction):
         '''
-        根據 direction 移動蛇的座標
+        根據 direction 移動蛇的座標，無回傳值
         direction 為哪個按鍵被按到
         -1: 其他
         0: 上
         1: 右
         2: 下
         3: 左
-
         '''
+        # TODO
         if direction == -1:
             return
         if direction == 0:  # up
@@ -150,6 +152,7 @@ class Player:
         有碰到就回傳 True
         沒有碰到回傳 False
         '''
+        # TODO
         first_block = [
             self.head_x,
             self.head_y,
@@ -170,6 +173,7 @@ class Player:
         有碰到就回傳 True
         沒有碰到回傳 False
         '''
+        # TODO
         hx, hy = self.head_x, self.head_y
 
         for wall in walls:
@@ -187,6 +191,7 @@ class Player:
         有碰到就回傳 True
         沒有碰到回傳 False
         '''
+        # TODO
         hx, hy = self.head_x, self.head_y
 
         for food in foods:
@@ -205,6 +210,7 @@ class Player:
         有碰到就回傳 True
         沒有碰到回傳 False
         '''
+        # TODO
         hx, hy = self.head_x, self.head_y
         if (
             abs(hx - poison.rect.topleft[0]) < SNAKE_SIZE
