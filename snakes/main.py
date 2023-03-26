@@ -74,6 +74,7 @@ while running:
         foods.pop()
         generate_wall(walls, next_walls, player)
         generate_food(foods, walls, player)
+        poison = generate_poison(walls, foods, player)
     if player.detect_poison_collision(poison):
         player.snake_list.pop()
         print("poison")
