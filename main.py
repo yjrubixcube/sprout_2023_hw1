@@ -1,9 +1,8 @@
+import random
 import pygame as pg
 from Config import *
 from Model import *
 from Controller import *
-
-from typing import List
 
 """
 Initialize and Global variables
@@ -20,13 +19,13 @@ player = Player()
 
 foods = []
 walls = []
-next_walls = []
+wall_direction = random.choice(DIRECTIONS)
+player_direction_key = -1
 
-generate_wall(walls, next_walls, player)
+generate_wall(walls, player, wall_direction)
 generate_food(foods, walls, player)
 poison = generate_poison(walls, foods, player)
 
-direction = -1
 
 time_interval = TIME_INTERVAL_MIN
 
@@ -52,12 +51,12 @@ while running:
 
     key = key_input(pressed_keys)
     pg.event.clear()
-    direction = direction if key == None else key
+    player_direction_key = player_direction_key if key == None else key
 
     # 將蛇的最後一格存起來，長度變長的時候要加回去
     last_block = player.snake_list[-1]
 
-    player.move(direction)
+    player.move(player_direction_key)
 
     # 各種物件碰撞判斷
     if player.check_border():
@@ -72,7 +71,7 @@ while running:
     if player.detect_food_collision(foods):
         player.new_block(last_block[:2])
         foods.pop()
-        generate_wall(walls, next_walls, player)
+        wall_direction = generate_wall(walls, player, wall_direction)
         generate_food(foods, walls, player)
         poison = generate_poison(walls, foods, player)
     if player.detect_poison_collision(poison):
@@ -96,7 +95,7 @@ while running:
 
     # 把你的螢幕翻過來XD
     pg.display.flip()
-    
+
     clock.tick(time_interval)
 
 print(f"Your score is {player.length}")

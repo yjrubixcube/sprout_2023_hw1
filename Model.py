@@ -5,9 +5,10 @@ from operator import add
 
 
 class Food:
-    '''
+    """
     食物物件，初始化方法為 Food((左上角x, 左上角y))
-    '''
+    """
+
     def __init__(self, pos):
         self.surf = pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE))
         self.surf.fill(FOOD_COLOR)
@@ -21,10 +22,12 @@ class Food:
     def pos_y(self):
         return self.rect.topleft[1]
 
+
 class Poison:
-    '''
+    """
     毒藥物件，初始化方法為 Poison((左上角x, 左上角y))
-    '''
+    """
+
     def __init__(self, pos):
         self.surf = pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE))
         self.surf.fill(POISON_COLOR)
@@ -38,10 +41,12 @@ class Poison:
     def pos_y(self):
         return self.rect.topleft[1]
 
+
 class Wall:
-    '''
+    """
     牆壁物件，初始化方法為 Wall((左上角x, 左上角y))
-    '''
+    """
+
     def __init__(self, pos):
         self.surf = pg.surface.Surface(size=(SNAKE_SIZE, SNAKE_SIZE))
         self.surf.fill(WALL_COLOR)
@@ -57,13 +62,13 @@ class Wall:
 
 
 class Player:
-    '''
+    """
     玩家物件
     snake_list 紀錄每一段蛇的座標 (左上x, 左上y, 大小, 大小)
-    '''
+    """
+
     def __init__(self):
         self.snake_list = [[200, 100, SNAKE_SIZE, SNAKE_SIZE]]
-        
 
     @property
     def head_x(self):
@@ -80,19 +85,19 @@ class Player:
     # 以下為大作業
 
     def new_block(self, new_pos):
-        '''
+        """
         將新一段的資訊加到 snake_list 最後面
-        '''
+        """
         # self.snake_list.insert(0, [*new_pos, SNAKE_SIZE, SNAKE_SIZE])
         # TODO
         self.snake_list.append([*new_pos, SNAKE_SIZE, SNAKE_SIZE])
 
     def draw_snake(self, screen):
-        '''
+        """
         畫出蛇，顏色要黃藍相間，無回傳值
         顏色可以用 SNAKE_COLOR_YELLOW, SNAKE_COLOR_BLUE
         可以用 pg.draw.rect(screen, 顏色, (座標x, 座標y, 大小, 大小))
-        '''
+        """
         # TODO
         col = True
         for block in self.snake_list:
@@ -104,11 +109,11 @@ class Player:
             col = not col
 
     def check_border(self):
-        '''
+        """
         判斷蛇的頭有沒有超出螢幕範圍
         有超出就回傳 True
         沒有超出回傳 False
-        '''
+        """
         # TODO
         if (
             self.head_x < 0
@@ -120,7 +125,7 @@ class Player:
         return False
 
     def move(self, direction):
-        '''
+        """
         根據 direction 移動蛇的座標，無回傳值
         direction 為哪個按鍵被按到
         -1: 其他
@@ -128,7 +133,7 @@ class Player:
         1: 右
         2: 下
         3: 左
-        '''
+        """
         # TODO
         if direction == -1:
             return
@@ -145,13 +150,13 @@ class Player:
         last_block = self.snake_list.pop()
         last_block = list(map(add, first_block, movement))
         self.snake_list.insert(0, [*last_block, SNAKE_SIZE, SNAKE_SIZE])
-    
+
     def detect_player_collision(self):
-        '''
+        """
         判斷蛇的頭是否碰到蛇的其他段
         有碰到就回傳 True
         沒有碰到回傳 False
-        '''
+        """
         # TODO
         first_block = [
             self.head_x,
@@ -168,11 +173,11 @@ class Player:
             return False
 
     def detect_wall_collision(self, walls: List[Wall]):
-        '''
+        """
         判斷蛇的頭是否碰到牆壁
         有碰到就回傳 True
         沒有碰到回傳 False
-        '''
+        """
         # TODO
         hx, hy = self.head_x, self.head_y
 
@@ -186,11 +191,11 @@ class Player:
         return False
 
     def detect_food_collision(self, foods: List[Food]):
-        '''
+        """
         判斷蛇的頭是否碰到食物
         有碰到就回傳 True
         沒有碰到回傳 False
-        '''
+        """
         # TODO
         hx, hy = self.head_x, self.head_y
 
@@ -203,13 +208,13 @@ class Player:
                 return True
 
         return False
-    
+
     def detect_poison_collision(self, poison: Poison):
-        '''
+        """
         判斷蛇的頭是否碰到毒藥
         有碰到就回傳 True
         沒有碰到回傳 False
-        '''
+        """
         # TODO
         hx, hy = self.head_x, self.head_y
         if (
