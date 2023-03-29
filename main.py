@@ -1,8 +1,8 @@
-import random
 import pygame as pg
 from Config import *
 from Model import *
 from Controller import *
+import random
 
 """
 Initialize and Global variables
