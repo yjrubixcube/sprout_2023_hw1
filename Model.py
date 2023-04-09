@@ -120,7 +120,7 @@ class Player:
         bool -- 蛇的頭有沒有超出螢幕範圍
         """
         # TODO
-        return True
+        return False
 
     def move(self, direction) -> None:
         """
@@ -148,7 +148,7 @@ class Player:
         bool -- 是否碰到蛇 (自己) 的其他段
         """
         # TODO
-        return True
+        return False
 
     def detect_wall_collision(self, walls: List[Wall]) -> bool:
         """
@@ -163,7 +163,7 @@ class Player:
         bool -- 是否碰到牆壁
         """
         # TODO
-        return True
+        return False
 
     def detect_food_collision(self, foods: List[Food]) -> bool:
         """
@@ -178,7 +178,7 @@ class Player:
         bool -- 是否碰到食物
         """
         # TODO
-        return True
+        return False
 
     def detect_poison_collision(self, poison: Poison) -> bool:
         """
@@ -193,4 +193,4 @@ class Player:
         bool -- 是否碰到毒藥
         """
         # TODO
-        return True
+        return False
