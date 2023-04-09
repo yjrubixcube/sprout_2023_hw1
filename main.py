@@ -59,6 +59,7 @@ while running:
     player.move(player_direction_key)
 
     # 各種物件碰撞判斷
+    
     if player.check_border():
         print("hit border")
         break
@@ -80,7 +81,7 @@ while running:
         if player.length == 0:
             break
         poison = generate_poison(walls, foods, player)
-
+    
     # 計算每秒的幀數 (fps)
     time_interval = calculate_time_interval(player)
 
@@ -91,7 +92,8 @@ while running:
         screen.blit(food.surf, food.rect)
     for wall in walls:
         screen.blit(wall.surf, wall.rect)
-    screen.blit(poison.surf, poison.rect)
+    if poison:
+        screen.blit(poison.surf, poison.rect)
 
     # 把你的螢幕翻過來XD
     pg.display.flip()
